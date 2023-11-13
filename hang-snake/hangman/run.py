@@ -1,18 +1,16 @@
 import time
-
 from common.util import clear_terminal
-from hangman.provider import LetterProvider, RandomLetterProvider
+from hangman.provider import LetterProvider, KeyboardLetterProvider, RandomLetterProvider
+from printer.secret import Secret
 
 
-def create_secret():
-    return 'capybara'
 
 
 FINAL_FIELD = r'''
    +----+
    |    |
    o    |
-  /|\   |
+  /|\   | 
   / \   |
 _______/|\_
 '''.split('\n')
@@ -37,7 +35,6 @@ class Field:
         ]
         for row, col in HUMAN:
             self.matrix[row][col] = ' '
-
     def print(self):
         for row in self.matrix:
             print(''.join(row))
@@ -50,22 +47,25 @@ class Field:
 
 
 class HangmanGame:
-    def __init__(self, letter_provider: LetterProvider, step_sleep: int):
+    def __init__(self, letter_provider: LetterProvider, secrword: Secret, step_sleep: int, let):
         self.field = Field()
         self.step_sleep = step_sleep
         self.provider = letter_provider
-        self.secret = create_secret()
+        self.secret = secrword.create_secret()
         self.guessed = ['_' for _ in range(len(self.secret))]
-
+        self.red = (255, 0, 0)
+        self.let = let
+        self.count = 0
     def read_guess(self) -> str:
         while True:
-            letter = self.provider.get_next_letter().lower()
+            letter = self.let[self.count]
             if len(letter) != 1 and ord(letter) < ord('a') or ord(letter) > ord('z'):
                 print('Invalid guess! Try again (enter a letter)')
                 continue
             return letter
 
     def check_guess(self, letter: str):
+
         if letter in self.secret:
             for i in range(len(self.secret)):
                 if self.secret[i] == letter:
@@ -90,20 +90,21 @@ class HangmanGame:
         print(''.join(self.guessed))
 
     def run(self):
+        #game_over = False
         self.show()
-        while True:
+        for t in range(len(self.let)):
             self.step()
             if self.is_won():
                 self.show()
                 print('Cool! You won!')
-                break
+                # break
             if self.is_lost():
-                self.show()
-                print('Wow, you lost! Sad :(')
-                break
+                 self.show()
+                 print('Wow, you lost! Sad :(')
+                 # break
             self.show()
-
-
+            self.count+=1
 provider = RandomLetterProvider()
-game = HangmanGame(provider, 1)
-game.run()
+secr = Secret()
+#game = HangmanGame(provider, secr,1)
+#game.run()

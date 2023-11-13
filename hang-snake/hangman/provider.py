@@ -1,6 +1,5 @@
 import random
 
-
 class LetterProvider:
     def get_next_letter(self) -> str:
         pass
