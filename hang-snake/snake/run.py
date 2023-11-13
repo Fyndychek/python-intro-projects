@@ -69,7 +69,7 @@ class SnakeGame:
                       self.direc = 3
                   elif event.key == pygame.K_DOWN:
                       self.direc = 1
-                  # elif event.key == pygame.K_BACKSPACE:
+
 
 
 
