@@ -62,13 +62,34 @@ class SnakeGame:
                       game_over = True
               if event.type == pygame.KEYDOWN:
                   if event.key == pygame.K_LEFT:
-                      self.direc = 4
+                      if (self.direc== 2) and (self.length>1):
+                          text1 = f1.render('Game Over', True, (255, 0, 0))
+                          self.dis.blit(text1, (300, 200))
+                          break
+                      else:
+                        self.direc = 4
                   elif event.key == pygame.K_RIGHT:
-                      self.direc = 2
+                      if (self.direc==4) and (self.length>1):
+                          text1 = f1.render('Game Over', True, (255, 0, 0))
+                          self.dis.blit(text1, (300, 200))
+                          break
+                      else:
+                         self.direc = 2
                   elif event.key == pygame.K_UP:
-                      self.direc = 3
+                      if (self.direc==1) and (self.length>1):
+                          text1 = f1.render('Game Over', True, (255, 0, 0))
+                          self.dis.blit(text1, (300, 200))
+                          break
+                      else:
+                         self.direc = 3
                   elif event.key == pygame.K_DOWN:
-                      self.direc = 1
+
+                      if (self.direc==3) and (self.length>1):
+                          text1 = f1.render('Game Over', True, (255, 0, 0))
+                          self.dis.blit(text1, (300, 200))
+                          break
+                      else:
+                        self.direc = 1
               if (self.direc == 1):
                   self.headx = self.headx + self.speed
                   self.heady = self.heady
@@ -88,6 +109,12 @@ class SnakeGame:
               snake_Head.append(self.headx)
               snake_Head.append(self.heady)
               self.snake_list.append(snake_Head)
+              if (self.headx <= 0) or (self.headx>=600) or (self.heady<=0) or (self.heady>=800):
+                  text1 = f1.render('Game Over', True, (255, 0, 0))
+                  self.dis.blit(text1, (300, 200))
+                  pygame.display.update()
+                  break;
+
               for o in range(len(self.secret)):
                   if(self.headx>=positionsy[o]) and (self.headx<=positionsy[o]+19) and (self.heady>=positionsx[o]) and (self.heady<=positionsx[o]+19):
                       self.eatenletters.append(nletter[o])
