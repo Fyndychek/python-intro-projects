@@ -36,7 +36,6 @@ class SnakeGame:
         for x in self.snake_list:
             pygame.draw.rect(self.dis, self.color, [x[1], x[0], self.width, self.height])
 
-
     def run(self):
         eat=0
 
