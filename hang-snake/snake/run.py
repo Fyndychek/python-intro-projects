@@ -113,7 +113,7 @@ class SnakeGame:
                   self.dis.blit(text1, (300, 200))
                   pygame.display.update()
                   break;
-
+                  
               for o in range(len(self.secret)):
                   if(self.headx>=positionsy[o]) and (self.headx<=positionsy[o]+19) and (self.heady>=positionsx[o]) and (self.heady<=positionsx[o]+19):
                       self.eatenletters.append(nletter[o])
